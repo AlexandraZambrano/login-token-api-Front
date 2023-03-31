@@ -1,12 +1,12 @@
-import { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from '../Api/axios';
-import Logout from './logout';
 
-const LOGIN_URL = '/api/login_check';
 
-const Login = () => {
+const REGISTER_URL = '/api/register';
 
-    const errRef = useRef();
+
+function Reg() {
+
     const [username, setUsername] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -18,49 +18,40 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ username: username, password: pwd }),
+
+        try{
+
+            const response = await axios.post(REGISTER_URL,
+                { 
+                    username: username, 
+                    password: pwd 
+                },
                 {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
+                    headers: { 'Content-Type': 'application/json'},
+                    // withCredentials: true
                 }
             );
 
-            const accessToken = response.data;
-            const user = { username: username, password: pwd, accessToken: accessToken };
+            console.log(response.data)
 
-
-           const storedToken = window.localStorage.setItem(
-                'loggedAppUser', JSON.stringify(user)
-            );
-
-            console.log(storedToken)
-
-
-            setUsername('');
-            setPwd('');
             setSuccess(true);
 
-            console.log('hecho!')
-
-
-        } catch (err) {
+        }catch{
             console.log('no funciona')
         }
     }
 
-    return (
-        <>
-            {success ? (
+  return (
+    <div>
+      {success ? (
                 <section className='success'>
-                    <h2>¡Has iniciado sesión!</h2>
-                    <a href='#' className='btn-login'>Ve al inicio</a>
+                    <h2>¡Registro completado!</h2>
+                    <a href='#' className='btn-login'>Ve al inicio de sesión</a>
                 </section> 
             ) : (
                 <section>
-                    <h1>Plataforma de Fichaje</h1>
-                        <div className='box-fichaje'>
+                    <h1>Registro de usuario</h1>
+                        <div className='box-registration'>
                             <form onSubmit={handleSubmit}>
                                 <label htmlFor='username'>username</label>
                                 <input
@@ -80,15 +71,15 @@ const Login = () => {
                                     value={pwd}
                                     required
                                 />
-                                <button className='btn'>Entrar</button>
+                                <button className='btn'>Registrarse</button>
                             </form>
 
-                            <a href="#" className='btn-password'>Recuperar Contraseña</a>
+                            <a href="/login" className='btn-login'>Iniciar sesión</a>
                         </div>
                 </section>
             )}
-        </>
-    )
+    </div>
+  )
 }
 
-export default Login;
+export default Reg

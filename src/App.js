@@ -1,13 +1,33 @@
 import React from 'react';
 import './App.css';
-import Login from './components/login';
-import LoginForm from './components/login2';
+import { BrowserRouter, Link } from 'react-router-dom';
+import RoutesTab from './components/routes';
+import Logout from './components/logout';
 
 function App() {
   return (
     <div className="App">
-      <Login />
-      {/* <LoginForm /> */}
+
+        {/* <Logout /> */}
+
+      <BrowserRouter>
+        <ul className='navbar__links'>
+          <li className='navbar__item'>
+            <Link to='/dashboard'>Dashboard</Link>
+          </li>
+
+          <li className='navbar__item'>
+            <Link to='/login'>Login</Link>
+          </li>
+
+          <li className='navbar__item'>
+            <Link to='/register'>register</Link>
+          </li>
+
+        </ul>
+
+        <RoutesTab />
+      </BrowserRouter>
     </div>
   );
 }
